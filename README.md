@@ -4,16 +4,14 @@
 
 Build comprehensive, always-in-sync brand style guides directly in the WordPress editor. No manual updates needed—your style guide updates automatically when your theme changes.
 
-![Branding Block Kit Banner](screenshots/banner.png)
-
 ## Features
 
 - **Automatic Sync** — Reads directly from your theme's `theme.json`, so your style guide is always up-to-date
 - **8 Specialized Blocks** — Color palettes, gradients, typography, spacing, shadows, and more
-- **Multiple Display Styles** — Cards, chips, circles, pills, stripes, and minimal layouts
-- **Dark/Light Mode** — Automatic theme detection with glassmorphic card styling
+- **Multiple Display Styles** — Cards, chips, circles, pills, stripes, grid expand, and minimal layouts
+- **Light/Dark Mode** — Optimized for light backgrounds by default, with dark mode support
 - **Print Ready** — Optimized styles for generating PDF brand guides
-- **Greenshift Compatible** — Also reads from Greenshift global color settings
+- **Click to Copy** — Click any color or gradient swatch to copy its value
 
 ## Blocks Included
 
@@ -30,21 +28,20 @@ Build comprehensive, always-in-sync brand style guides directly in the WordPress
 
 ## Screenshots
 
-### Color Palette Block
-Multiple layout options: horizontal chips, grid cards, circles, pills, and more.
+### Gradient Showcase Block
+Card layout with gradient names and CSS code.
 
-![Color Palette - Chip Layout](screenshots/colors-chip.png)
-![Color Palette - Card Layout](screenshots/colors-card.png)
+![Gradient Showcase - Card Layout](screenshots/gradients-card.png)
+
+### Gradient Grid Layout
+Clean grid display of all gradients.
+
+![Gradient Showcase - Grid Layout](screenshots/gradients-grid.png)
 
 ### Typography Block
-Display font families and sizes with customizable sample text.
+Display font sizes with sample text and values.
 
-![Typography Samples](screenshots/typography.png)
-
-### Full Style Guide
-Combine all blocks into a comprehensive brand guide.
-
-![Full Style Guide](screenshots/style-guide.png)
+![Typography Samples](screenshots/typography-sizes.png)
 
 ## Installation
 
@@ -133,21 +130,23 @@ The plugin uses CSS custom properties that you can override:
 
 ```css
 .bbk-brand-block {
-    --bbk-bg-card: rgba(255, 255, 255, 0.02);
-    --bbk-border-color: rgba(255, 255, 255, 0.06);
-    --bbk-text-primary: #ffffff;
-    --bbk-text-secondary: #B6C7D9;
-    --bbk-accent: #20D4DA;
+    --bbk-bg-card: #ffffff;
+    --bbk-border-color: rgba(0, 0, 0, 0.1);
+    --bbk-text-primary: #171A1F;
+    --bbk-text-secondary: #374151;
+    --bbk-text-tertiary: #6B7280;
+    --bbk-accent: #2563EB;
     --bbk-radius-lg: 16px;
+    --bbk-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+    --bbk-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 ```
 
-### Light Mode
+### Dark Mode
 
-Light mode is automatically applied when:
-- `[data-theme="light"]` is on a parent element
-- `.is-light-theme` class is present
-- Inside the WordPress editor
+Dark mode is applied when:
+- `[data-theme="dark"]` is on a parent element
+- `.is-dark-theme` class is present
 
 ## Changelog
 
