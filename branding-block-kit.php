@@ -104,9 +104,10 @@ final class Branding_Block_Kit {
                 'title'       => array( 'type' => 'string', 'default' => 'Gradients' ),
                 'showName'    => array( 'type' => 'boolean', 'default' => true ),
                 'showCode'    => array( 'type' => 'boolean', 'default' => true ),
-                'layout'      => array( 'type' => 'string', 'default' => 'stack' ), // stack, grid, cards
-                'columns'     => array( 'type' => 'number', 'default' => 2 ),
-                'swatchStyle' => array( 'type' => 'string', 'default' => 'bar' ), // bar, square, circle, card
+                'layout'      => array( 'type' => 'string', 'default' => 'grid' ), // grid, row, stack, list, inline
+                'columns'     => array( 'type' => 'number', 'default' => 3 ),
+                'swatchStyle' => array( 'type' => 'string', 'default' => 'card' ), // card, large-card, bar, square, circle, pill, chip, minimal, brand-chips, brand-squares, brand-bars, brand-cards
+                'swatchSize'  => array( 'type' => 'string', 'default' => 'medium' ), // small, medium, large
             ),
         ) );
 
@@ -119,6 +120,9 @@ final class Branding_Block_Kit {
                 'showFontSize' => array( 'type' => 'boolean', 'default' => true ),
                 'showFontFamily' => array( 'type' => 'boolean', 'default' => true ),
                 'display'      => array( 'type' => 'string', 'default' => 'all' ), // all, sizes, families
+                'layout'       => array( 'type' => 'string', 'default' => 'stack' ), // stack, grid, list, cards
+                'columns'      => array( 'type' => 'number', 'default' => 2 ),
+                'cardStyle'    => array( 'type' => 'string', 'default' => 'card' ), // card, minimal, bordered, brand-card, brand-minimal
             ),
         ) );
 
@@ -318,15 +322,30 @@ final class Branding_Block_Kit {
             return '<p class="bbk-brand-empty">' . esc_html__( 'No gradients defined in theme.json', 'branding-block-kit' ) . '</p>';
         }
 
-        $layout  = $attributes['layout'] ?? 'stack';
-        $style   = $attributes['swatchStyle'] ?? 'bar';
-        $columns = absint( $attributes['columns'] ?? 2 );
+        $layout  = $attributes['layout'] ?? 'grid';
+        $style   = $attributes['swatchStyle'] ?? 'card';
+        $size    = $attributes['swatchSize'] ?? 'medium';
+        $columns = absint( $attributes['columns'] ?? 3 );
 
-        $list_classes = array(
-            'bbk-brand-gradient-list',
-            'bbk-brand-gradient-list--' . $layout,
-            'bbk-brand-gradient-list--style-' . $style,
+        // Styles that use overlay for hover text reveal
+        $overlay_styles = array( 'chip', 'brand-chips', 'brand-squares', 'brand-bars', 'brand-cards' );
+        
+        // Brand styles need their own layout class
+        $is_brand_style = in_array( $style, array( 'brand-chips', 'brand-squares', 'brand-bars', 'brand-cards' ), true );
+
+        $grid_classes = array(
+            'bbk-brand-gradient-grid',
+            'bbk-brand-gradient-grid--' . $style,
         );
+        
+        // For brand styles, use the style as the layout; otherwise use the layout attribute
+        if ( $is_brand_style ) {
+            $grid_classes[] = 'bbk-brand-gradient-grid--layout-' . $style;
+        } else {
+            $grid_classes[] = 'bbk-brand-gradient-grid--layout-' . $layout;
+        }
+        
+        $grid_classes[] = 'bbk-brand-gradient-grid--size-' . $size;
 
         ob_start();
         ?>
@@ -335,17 +354,36 @@ final class Branding_Block_Kit {
                 <h3 class="bbk-brand-block__title"><?php echo esc_html( $attributes['title'] ); ?></h3>
             <?php endif; ?>
             
-            <div class="<?php echo esc_attr( implode( ' ', $list_classes ) ); ?>" style="--bbk-columns: <?php echo esc_attr( $columns ); ?>">
+            <div class="<?php echo esc_attr( implode( ' ', $grid_classes ) ); ?>" style="--bbk-columns: <?php echo esc_attr( $columns ); ?>">
                 <?php foreach ( $gradients as $gradient ) : ?>
-                    <div class="bbk-brand-gradient-item bbk-brand-gradient-item--<?php echo esc_attr( $style ); ?>">
-                        <div class="bbk-brand-gradient-item__preview" style="background: <?php echo esc_attr( $gradient['gradient'] ); ?>"></div>
-                        <?php if ( $attributes['showName'] || $attributes['showCode'] ) : ?>
-                            <div class="bbk-brand-gradient-item__info">
+                    <div class="bbk-brand-gradient-swatch bbk-brand-gradient-swatch--<?php echo esc_attr( $style ); ?> bbk-brand-gradient-swatch--size-<?php echo esc_attr( $size ); ?>" data-gradient="<?php echo esc_attr( $gradient['gradient'] ); ?>" title="<?php echo esc_attr( sprintf( __( 'Click to copy %s', 'branding-block-kit' ), $gradient['name'] ) ); ?>">
+                        <div class="bbk-brand-gradient-swatch__preview" style="background: <?php echo esc_attr( $gradient['gradient'] ); ?>">
+                            <?php if ( in_array( $style, $overlay_styles, true ) ) : ?>
+                                <div class="bbk-brand-gradient-swatch__overlay">
+                                    <?php if ( $attributes['showName'] ) : ?>
+                                        <span class="bbk-brand-gradient-swatch__name"><?php echo esc_html( $gradient['name'] ); ?></span>
+                                    <?php endif; ?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        <?php 
+                        // Show info section for non-overlay styles
+                        $show_info = ! in_array( $style, array( 'chip', 'brand-chips', 'brand-squares', 'brand-bars' ), true ) 
+                                     && ( $attributes['showName'] || $attributes['showCode'] );
+                        
+                        // Brand cards always show info section
+                        if ( $style === 'brand-cards' ) {
+                            $show_info = true;
+                        }
+                        
+                        if ( $show_info ) : 
+                        ?>
+                            <div class="bbk-brand-gradient-swatch__info">
                                 <?php if ( $attributes['showName'] ) : ?>
-                                    <span class="bbk-brand-gradient-item__name"><?php echo esc_html( $gradient['name'] ); ?></span>
+                                    <span class="bbk-brand-gradient-swatch__name"><?php echo esc_html( $gradient['name'] ); ?></span>
                                 <?php endif; ?>
                                 <?php if ( $attributes['showCode'] ) : ?>
-                                    <code class="bbk-brand-gradient-item__code"><?php echo esc_html( $gradient['gradient'] ); ?></code>
+                                    <code class="bbk-brand-gradient-swatch__code"><?php echo esc_html( $gradient['gradient'] ); ?></code>
                                 <?php endif; ?>
                             </div>
                         <?php endif; ?>
@@ -366,50 +404,64 @@ final class Branding_Block_Kit {
         $font_families = $reader->get_font_families();
 
         $sample_text = $attributes['sampleText'];
-        $display = $attributes['display'];
+        $display     = $attributes['display'];
+        $layout      = $attributes['layout'] ?? 'stack';
+        $columns     = absint( $attributes['columns'] ?? 2 );
+        $card_style  = $attributes['cardStyle'] ?? 'card';
+
+        $block_classes = array(
+            'bbk-brand-block',
+            'bbk-brand-typography-samples',
+            'bbk-brand-typography-samples--layout-' . $layout,
+            'bbk-brand-typography-samples--style-' . $card_style,
+        );
 
         ob_start();
         ?>
-        <div class="bbk-brand-block bbk-brand-typography-samples">
+        <div class="<?php echo esc_attr( implode( ' ', $block_classes ) ); ?>" style="--bbk-columns: <?php echo esc_attr( $columns ); ?>">
             <?php if ( ! empty( $attributes['title'] ) ) : ?>
                 <h3 class="bbk-brand-block__title"><?php echo esc_html( $attributes['title'] ); ?></h3>
             <?php endif; ?>
 
             <?php if ( ( $display === 'all' || $display === 'families' ) && ! empty( $font_families ) ) : ?>
-                <div class="bbk-brand-typography-section">
+                <div class="bbk-brand-typography-section bbk-brand-typography-section--families">
                     <h4 class="bbk-brand-typography-section__title"><?php esc_html_e( 'Font Families', 'branding-block-kit' ); ?></h4>
-                    <?php foreach ( $font_families as $family ) : ?>
-                        <div class="bbk-brand-font-family">
-                            <div class="bbk-brand-font-family__sample" style="font-family: <?php echo esc_attr( $family['fontFamily'] ); ?>">
-                                <?php echo esc_html( $sample_text ); ?>
+                    <div class="bbk-brand-typography-grid">
+                        <?php foreach ( $font_families as $family ) : ?>
+                            <div class="bbk-brand-font-family bbk-brand-font-family--<?php echo esc_attr( $card_style ); ?>">
+                                <div class="bbk-brand-font-family__sample" style="font-family: <?php echo esc_attr( $family['fontFamily'] ); ?>">
+                                    <?php echo esc_html( $sample_text ); ?>
+                                </div>
+                                <div class="bbk-brand-font-family__info">
+                                    <span class="bbk-brand-font-family__name"><?php echo esc_html( $family['name'] ); ?></span>
+                                    <?php if ( $attributes['showFontFamily'] ) : ?>
+                                        <code class="bbk-brand-font-family__value"><?php echo esc_html( $family['fontFamily'] ); ?></code>
+                                    <?php endif; ?>
+                                </div>
                             </div>
-                            <div class="bbk-brand-font-family__info">
-                                <span class="bbk-brand-font-family__name"><?php echo esc_html( $family['name'] ); ?></span>
-                                <?php if ( $attributes['showFontFamily'] ) : ?>
-                                    <code class="bbk-brand-font-family__value"><?php echo esc_html( $family['fontFamily'] ); ?></code>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
+                        <?php endforeach; ?>
+                    </div>
                 </div>
             <?php endif; ?>
 
             <?php if ( ( $display === 'all' || $display === 'sizes' ) && ! empty( $font_sizes ) ) : ?>
-                <div class="bbk-brand-typography-section">
+                <div class="bbk-brand-typography-section bbk-brand-typography-section--sizes">
                     <h4 class="bbk-brand-typography-section__title"><?php esc_html_e( 'Font Sizes', 'branding-block-kit' ); ?></h4>
-                    <?php foreach ( $font_sizes as $size ) : ?>
-                        <div class="bbk-brand-font-size">
-                            <div class="bbk-brand-font-size__sample" style="font-size: <?php echo esc_attr( $size['size'] ); ?>">
-                                <?php echo esc_html( $sample_text ); ?>
+                    <div class="bbk-brand-typography-grid">
+                        <?php foreach ( $font_sizes as $size ) : ?>
+                            <div class="bbk-brand-font-size bbk-brand-font-size--<?php echo esc_attr( $card_style ); ?>">
+                                <div class="bbk-brand-font-size__sample" style="font-size: <?php echo esc_attr( $size['size'] ); ?>">
+                                    <?php echo esc_html( $sample_text ); ?>
+                                </div>
+                                <div class="bbk-brand-font-size__info">
+                                    <span class="bbk-brand-font-size__name"><?php echo esc_html( $size['name'] ); ?></span>
+                                    <?php if ( $attributes['showFontSize'] ) : ?>
+                                        <code class="bbk-brand-font-size__value"><?php echo esc_html( $size['size'] ); ?></code>
+                                    <?php endif; ?>
+                                </div>
                             </div>
-                            <div class="bbk-brand-font-size__info">
-                                <span class="bbk-brand-font-size__name"><?php echo esc_html( $size['name'] ); ?></span>
-                                <?php if ( $attributes['showFontSize'] ) : ?>
-                                    <code class="bbk-brand-font-size__value"><?php echo esc_html( $size['size'] ); ?></code>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
+                        <?php endforeach; ?>
+                    </div>
                 </div>
             <?php endif; ?>
         </div>

@@ -1,30 +1,49 @@
 /**
  * Branding Block Kit - Frontend Scripts
- * Click-to-copy functionality for color swatches
+ * Click-to-copy functionality for color swatches and gradients
  */
 (function() {
     'use strict';
 
     /**
-     * Initialize click-to-copy on all color swatches
+     * Initialize click-to-copy on all swatches (colors and gradients)
      */
     function initClickToCopy() {
-        const swatches = document.querySelectorAll('.bbk-brand-color-swatch[data-color]');
+        // Color swatches
+        const colorSwatches = document.querySelectorAll('.bbk-brand-color-swatch[data-color]');
+        colorSwatches.forEach(function(swatch) {
+            setupClickToCopy(swatch, 'data-color', 'Click to copy color value');
+        });
+
+        // Gradient swatches
+        const gradientSwatches = document.querySelectorAll('.bbk-brand-gradient-swatch[data-gradient]');
+        gradientSwatches.forEach(function(swatch) {
+            setupClickToCopy(swatch, 'data-gradient', 'Click to copy gradient CSS');
+        });
+    }
+
+    /**
+     * Setup click-to-copy on an element
+     */
+    function setupClickToCopy(element, dataAttr, title) {
+        element.style.cursor = 'pointer';
+        if (!element.getAttribute('title')) {
+            element.setAttribute('title', title);
+        }
         
-        swatches.forEach(function(swatch) {
-            swatch.style.cursor = 'pointer';
-            swatch.setAttribute('title', 'Click to copy color value');
+        // Avoid duplicate listeners
+        if (element.dataset.bbkCopyInit) return;
+        element.dataset.bbkCopyInit = 'true';
+        
+        element.addEventListener('click', function(e) {
+            const value = this.getAttribute(dataAttr);
             
-            swatch.addEventListener('click', function(e) {
-                const colorValue = this.getAttribute('data-color');
-                
-                if (!colorValue) return;
-                
-                copyToClipboard(colorValue).then(function() {
-                    showCopiedFeedback(swatch, colorValue);
-                }).catch(function(err) {
-                    console.error('Failed to copy:', err);
-                });
+            if (!value) return;
+            
+            copyToClipboard(value).then(function() {
+                showCopiedFeedback(element);
+            }).catch(function(err) {
+                console.error('Failed to copy:', err);
             });
         });
     }
@@ -65,11 +84,11 @@
     }
 
     /**
-     * Show "Copied!" feedback on the swatch
+     * Show "Copied!" feedback on the element
      */
-    function showCopiedFeedback(swatch, colorValue) {
+    function showCopiedFeedback(element) {
         // Remove any existing feedback
-        const existingFeedback = swatch.querySelector('.bbk-copy-feedback');
+        const existingFeedback = element.querySelector('.bbk-copy-feedback');
         if (existingFeedback) {
             existingFeedback.remove();
         }
@@ -79,14 +98,7 @@
         feedback.className = 'bbk-copy-feedback';
         feedback.textContent = 'Copied!';
         
-        // Determine text color based on background
-        const colorEl = swatch.querySelector('.bbk-brand-color-swatch__color');
-        if (colorEl) {
-            const bgColor = colorEl.style.backgroundColor || colorValue;
-            feedback.style.color = getContrastColor(bgColor);
-        }
-        
-        swatch.appendChild(feedback);
+        element.appendChild(feedback);
         
         // Trigger animation
         requestAnimationFrame(function() {
@@ -100,41 +112,6 @@
                 feedback.remove();
             }, 300);
         }, 1200);
-    }
-
-    /**
-     * Get contrasting text color (black or white) based on background
-     */
-    function getContrastColor(color) {
-        // Handle hex colors
-        let hex = color;
-        
-        if (color.startsWith('rgb')) {
-            // Extract RGB values from rgb() or rgba()
-            const match = color.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
-            if (match) {
-                const r = parseInt(match[1]);
-                const g = parseInt(match[2]);
-                const b = parseInt(match[3]);
-                const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-                return luminance > 0.5 ? '#000000' : '#ffffff';
-            }
-        }
-        
-        // Handle hex colors
-        hex = hex.replace('#', '');
-        if (hex.length === 3) {
-            hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
-        }
-        
-        const r = parseInt(hex.substr(0, 2), 16);
-        const g = parseInt(hex.substr(2, 2), 16);
-        const b = parseInt(hex.substr(4, 2), 16);
-        
-        // Calculate relative luminance
-        const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-        
-        return luminance > 0.5 ? '#000000' : '#ffffff';
     }
 
     // Initialize when DOM is ready

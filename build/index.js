@@ -153,9 +153,10 @@
             title: { type: 'string', default: 'Gradients' },
             showName: { type: 'boolean', default: true },
             showCode: { type: 'boolean', default: true },
-            layout: { type: 'string', default: 'stack' },
-            columns: { type: 'number', default: 2 },
-            swatchStyle: { type: 'string', default: 'bar' }
+            layout: { type: 'string', default: 'grid' },
+            columns: { type: 'number', default: 3 },
+            swatchStyle: { type: 'string', default: 'card' },
+            swatchSize: { type: 'string', default: 'medium' }
         },
         edit: function(props) {
             const { attributes, setAttributes } = props;
@@ -168,29 +169,50 @@
                             label: __('Layout Style', 'branding-block-kit'),
                             value: attributes.layout,
                             options: [
-                                { label: 'Stack (Full Width)', value: 'stack' },
                                 { label: 'Grid', value: 'grid' },
-                                { label: 'Cards', value: 'cards' }
+                                { label: 'Horizontal Row', value: 'row' },
+                                { label: 'Stack (Full Width)', value: 'stack' },
+                                { label: 'List', value: 'list' },
+                                { label: 'Inline', value: 'inline' }
                             ],
                             onChange: (val) => setAttributes({ layout: val })
                         }),
                         el(RangeControl, {
-                            label: __('Columns', 'branding-block-kit'),
+                            label: __('Columns (for Grid)', 'branding-block-kit'),
                             value: attributes.columns,
                             onChange: (val) => setAttributes({ columns: val }),
                             min: 2,
-                            max: 4
+                            max: 6
                         }),
                         el(SelectControl, {
                             label: __('Swatch Shape', 'branding-block-kit'),
                             value: attributes.swatchStyle,
                             options: [
+                                { label: 'Card', value: 'card' },
+                                { label: 'Large Card', value: 'large-card' },
                                 { label: 'Bar', value: 'bar' },
                                 { label: 'Square', value: 'square' },
                                 { label: 'Circle', value: 'circle' },
-                                { label: 'Card', value: 'card' }
+                                { label: 'Pill', value: 'pill' },
+                                { label: 'Chip (Expandable)', value: 'chip' },
+                                { label: 'Minimal', value: 'minimal' },
+                                { label: '— 21C Brand Styles —', value: '', disabled: true },
+                                { label: 'Brand Chips (21C)', value: 'brand-chips' },
+                                { label: 'Brand Squares (21C)', value: 'brand-squares' },
+                                { label: 'Brand Bars (21C)', value: 'brand-bars' },
+                                { label: 'Brand Cards (21C)', value: 'brand-cards' }
                             ],
                             onChange: (val) => setAttributes({ swatchStyle: val })
+                        }),
+                        el(SelectControl, {
+                            label: __('Swatch Size', 'branding-block-kit'),
+                            value: attributes.swatchSize,
+                            options: [
+                                { label: 'Small', value: 'small' },
+                                { label: 'Medium', value: 'medium' },
+                                { label: 'Large', value: 'large' }
+                            ],
+                            onChange: (val) => setAttributes({ swatchSize: val })
                         })
                     ),
                     el(PanelBody, { title: __('Display Options', 'branding-block-kit'), initialOpen: false },
@@ -235,7 +257,10 @@
             sampleText: { type: 'string', default: 'The quick brown fox jumps over the lazy dog' },
             showFontSize: { type: 'boolean', default: true },
             showFontFamily: { type: 'boolean', default: true },
-            display: { type: 'string', default: 'all' }
+            display: { type: 'string', default: 'all' },
+            layout: { type: 'string', default: 'stack' },
+            columns: { type: 'number', default: 2 },
+            cardStyle: { type: 'string', default: 'card' }
         },
         edit: function(props) {
             const { attributes, setAttributes } = props;
@@ -243,7 +268,40 @@
 
             return el(Fragment, {},
                 el(InspectorControls, {},
-                    el(PanelBody, { title: __('Settings', 'branding-block-kit') },
+                    el(PanelBody, { title: __('Layout', 'branding-block-kit') },
+                        el(SelectControl, {
+                            label: __('Layout Style', 'branding-block-kit'),
+                            value: attributes.layout,
+                            options: [
+                                { label: 'Stack (Full Width)', value: 'stack' },
+                                { label: 'Grid', value: 'grid' },
+                                { label: 'List (Compact)', value: 'list' },
+                                { label: 'Cards', value: 'cards' }
+                            ],
+                            onChange: (val) => setAttributes({ layout: val })
+                        }),
+                        el(RangeControl, {
+                            label: __('Columns (for Grid/Cards)', 'branding-block-kit'),
+                            value: attributes.columns,
+                            onChange: (val) => setAttributes({ columns: val }),
+                            min: 2,
+                            max: 4
+                        }),
+                        el(SelectControl, {
+                            label: __('Card Style', 'branding-block-kit'),
+                            value: attributes.cardStyle,
+                            options: [
+                                { label: 'Card', value: 'card' },
+                                { label: 'Minimal', value: 'minimal' },
+                                { label: 'Bordered', value: 'bordered' },
+                                { label: '— 21C Brand Styles —', value: '', disabled: true },
+                                { label: 'Brand Card (21C)', value: 'brand-card' },
+                                { label: 'Brand Minimal (21C)', value: 'brand-minimal' }
+                            ],
+                            onChange: (val) => setAttributes({ cardStyle: val })
+                        })
+                    ),
+                    el(PanelBody, { title: __('Content', 'branding-block-kit'), initialOpen: false },
                         el(TextControl, {
                             label: __('Title', 'branding-block-kit'),
                             value: attributes.title,

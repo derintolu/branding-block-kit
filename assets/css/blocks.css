@@ -930,6 +930,595 @@
 }
 
 /* ==========================================================================
+   Gradient Showcase Block - NEW Layout System (matching Color Palette)
+   ========================================================================== */
+
+/* Gradient Grid Base */
+.bbk-brand-gradient-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--bbk-columns, 3), 1fr);
+    gap: 1.25rem;
+    background: transparent;
+}
+
+/* Layout Variations */
+.bbk-brand-gradient-grid--layout-grid {
+    grid-template-columns: repeat(var(--bbk-columns, 3), 1fr);
+}
+
+.bbk-brand-gradient-grid--layout-row {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0;
+    overflow: hidden;
+    border-radius: var(--bbk-radius-xl);
+}
+
+.bbk-brand-gradient-grid--layout-stack {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+.bbk-brand-gradient-grid--layout-list {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+}
+
+.bbk-brand-gradient-grid--layout-inline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+/* Gradient Swatch Base */
+.bbk-brand-gradient-swatch {
+    position: relative;
+    cursor: pointer;
+    transition: all var(--bbk-transition);
+}
+
+.bbk-brand-gradient-swatch__preview {
+    width: 100%;
+    height: 100%;
+    min-height: 80px;
+    border-radius: var(--bbk-radius-lg);
+    transition: all var(--bbk-transition);
+}
+
+.bbk-brand-gradient-swatch__info {
+    padding: 12px 0 0;
+}
+
+.bbk-brand-gradient-swatch__name {
+    display: block;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--bbk-text-primary);
+    margin-bottom: 4px;
+}
+
+.bbk-brand-gradient-swatch__code {
+    display: block;
+    font-family: var(--bbk-font-mono);
+    font-size: 11px;
+    color: var(--bbk-text-tertiary);
+    word-break: break-all;
+}
+
+/* Size Variations */
+.bbk-brand-gradient-swatch--size-small .bbk-brand-gradient-swatch__preview {
+    min-height: 60px;
+}
+
+.bbk-brand-gradient-swatch--size-medium .bbk-brand-gradient-swatch__preview {
+    min-height: 100px;
+}
+
+.bbk-brand-gradient-swatch--size-large .bbk-brand-gradient-swatch__preview {
+    min-height: 160px;
+}
+
+/* Style: Card */
+.bbk-brand-gradient-swatch--card {
+    background: var(--bbk-bg-card);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--bbk-border-color);
+    border-radius: var(--bbk-radius-xl);
+    overflow: hidden;
+}
+
+.bbk-brand-gradient-swatch--card:hover {
+    border-color: var(--bbk-border-color-hover);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.bbk-brand-gradient-swatch--card .bbk-brand-gradient-swatch__preview {
+    border-radius: 0;
+}
+
+.bbk-brand-gradient-swatch--card .bbk-brand-gradient-swatch__info {
+    padding: 16px 20px 20px;
+}
+
+/* Style: Large Card */
+.bbk-brand-gradient-swatch--large-card {
+    background: var(--bbk-bg-card);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--bbk-border-color);
+    border-radius: var(--bbk-radius-2xl);
+    overflow: hidden;
+}
+
+.bbk-brand-gradient-swatch--large-card:hover {
+    border-color: var(--bbk-border-color-hover);
+    transform: translateY(-6px);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
+}
+
+.bbk-brand-gradient-swatch--large-card .bbk-brand-gradient-swatch__preview {
+    min-height: 180px;
+    border-radius: 0;
+}
+
+.bbk-brand-gradient-swatch--large-card .bbk-brand-gradient-swatch__info {
+    padding: 24px;
+}
+
+/* Style: Bar */
+.bbk-brand-gradient-swatch--bar .bbk-brand-gradient-swatch__preview {
+    height: 48px;
+    min-height: 48px;
+    border-radius: var(--bbk-radius-md);
+}
+
+/* Style: Square */
+.bbk-brand-gradient-swatch--square .bbk-brand-gradient-swatch__preview {
+    aspect-ratio: 1;
+    min-height: unset;
+}
+
+/* Style: Circle */
+.bbk-brand-gradient-swatch--circle {
+    text-align: center;
+}
+
+.bbk-brand-gradient-swatch--circle .bbk-brand-gradient-swatch__preview {
+    width: 100px;
+    height: 100px;
+    min-height: unset;
+    border-radius: 50%;
+    margin: 0 auto;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.bbk-brand-gradient-swatch--circle:hover .bbk-brand-gradient-swatch__preview {
+    transform: scale(1.1);
+}
+
+/* Style: Pill */
+.bbk-brand-gradient-swatch--pill .bbk-brand-gradient-swatch__preview {
+    border-radius: 9999px;
+    height: 40px;
+    min-height: 40px;
+}
+
+/* Style: Chip (Expandable) */
+.bbk-brand-gradient-swatch--chip {
+    flex: 1 1 auto;
+    min-width: 60px;
+    transition: flex 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bbk-brand-gradient-grid--layout-row .bbk-brand-gradient-swatch--chip {
+    border-radius: 0;
+}
+
+.bbk-brand-gradient-grid--layout-row .bbk-brand-gradient-swatch--chip:first-child {
+    border-radius: var(--bbk-radius-xl) 0 0 var(--bbk-radius-xl);
+}
+
+.bbk-brand-gradient-grid--layout-row .bbk-brand-gradient-swatch--chip:last-child {
+    border-radius: 0 var(--bbk-radius-xl) var(--bbk-radius-xl) 0;
+}
+
+.bbk-brand-gradient-swatch--chip:hover {
+    flex: 2 1 auto;
+}
+
+.bbk-brand-gradient-swatch--chip .bbk-brand-gradient-swatch__preview {
+    border-radius: 0;
+    min-height: 80px;
+}
+
+.bbk-brand-gradient-swatch--chip .bbk-brand-gradient-swatch__overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.bbk-brand-gradient-swatch--chip:hover .bbk-brand-gradient-swatch__overlay {
+    opacity: 1;
+}
+
+.bbk-brand-gradient-swatch--chip .bbk-brand-gradient-swatch__overlay .bbk-brand-gradient-swatch__name {
+    color: white;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+/* Style: Minimal */
+.bbk-brand-gradient-swatch--minimal .bbk-brand-gradient-swatch__preview {
+    border-radius: var(--bbk-radius-sm);
+}
+
+.bbk-brand-gradient-swatch--minimal .bbk-brand-gradient-swatch__info {
+    padding: 8px 0 0;
+}
+
+/* Brand Styles for Gradients */
+
+/* Brand Chips (21C) */
+.bbk-brand-gradient-grid--layout-brand-chips {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0;
+    border-radius: var(--bbk-radius-2xl);
+    overflow: hidden;
+}
+
+.bbk-brand-gradient-swatch--brand-chips {
+    flex: 1 1 auto;
+    min-width: 50px;
+    transition: flex 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bbk-brand-gradient-swatch--brand-chips:hover {
+    flex: 2.5 1 auto;
+}
+
+.bbk-brand-gradient-swatch--brand-chips .bbk-brand-gradient-swatch__preview {
+    min-height: 100px;
+    border-radius: 0;
+    position: relative;
+}
+
+.bbk-brand-gradient-swatch--brand-chips .bbk-brand-gradient-swatch__overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    padding: 12px;
+    text-align: center;
+}
+
+.bbk-brand-gradient-swatch--brand-chips:hover .bbk-brand-gradient-swatch__overlay {
+    opacity: 1;
+}
+
+.bbk-brand-gradient-swatch--brand-chips .bbk-brand-gradient-swatch__overlay .bbk-brand-gradient-swatch__name {
+    font-size: 12px;
+    font-weight: 600;
+    color: white;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+/* Brand Squares (21C) */
+.bbk-brand-gradient-grid--layout-brand-squares {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 12px;
+}
+
+.bbk-brand-gradient-swatch--brand-squares .bbk-brand-gradient-swatch__preview {
+    aspect-ratio: 1;
+    min-height: unset;
+    border-radius: 0;
+    position: relative;
+}
+
+.bbk-brand-gradient-swatch--brand-squares .bbk-brand-gradient-swatch__overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    padding: 12px;
+}
+
+.bbk-brand-gradient-swatch--brand-squares:hover .bbk-brand-gradient-swatch__overlay {
+    opacity: 1;
+}
+
+.bbk-brand-gradient-swatch--brand-squares .bbk-brand-gradient-swatch__overlay .bbk-brand-gradient-swatch__name {
+    font-size: 13px;
+    font-weight: 600;
+    color: white;
+}
+
+/* Brand Bars (21C) */
+.bbk-brand-gradient-grid--layout-brand-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border-radius: var(--bbk-radius-lg);
+    overflow: hidden;
+}
+
+.bbk-brand-gradient-swatch--brand-bars .bbk-brand-gradient-swatch__preview {
+    min-height: 56px;
+    border-radius: 0;
+    position: relative;
+}
+
+.bbk-brand-gradient-swatch--brand-bars .bbk-brand-gradient-swatch__overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    background: linear-gradient(to right, rgba(0,0,0,0.5) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.bbk-brand-gradient-swatch--brand-bars:hover .bbk-brand-gradient-swatch__overlay {
+    opacity: 1;
+}
+
+.bbk-brand-gradient-swatch--brand-bars .bbk-brand-gradient-swatch__overlay .bbk-brand-gradient-swatch__name {
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+}
+
+/* Brand Cards (21C) */
+.bbk-brand-gradient-grid--layout-brand-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.bbk-brand-gradient-swatch--brand-cards {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: var(--bbk-radius-xl);
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+.bbk-brand-gradient-swatch--brand-cards:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.bbk-brand-gradient-swatch--brand-cards .bbk-brand-gradient-swatch__preview {
+    min-height: 120px;
+    border-radius: 0;
+    position: relative;
+}
+
+.bbk-brand-gradient-swatch--brand-cards .bbk-brand-gradient-swatch__overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.bbk-brand-gradient-swatch--brand-cards:hover .bbk-brand-gradient-swatch__overlay {
+    opacity: 1;
+}
+
+.bbk-brand-gradient-swatch--brand-cards .bbk-brand-gradient-swatch__overlay .bbk-brand-gradient-swatch__name {
+    font-size: 13px;
+    font-weight: 600;
+    color: white;
+}
+
+.bbk-brand-gradient-swatch--brand-cards .bbk-brand-gradient-swatch__info {
+    padding: 20px;
+    background: #ffffff;
+}
+
+.bbk-brand-gradient-swatch--brand-cards .bbk-brand-gradient-swatch__info .bbk-brand-gradient-swatch__name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #171A1F;
+    margin-bottom: 4px;
+}
+
+.bbk-brand-gradient-swatch--brand-cards .bbk-brand-gradient-swatch__info .bbk-brand-gradient-swatch__code {
+    font-size: 11px;
+    color: #444B57;
+}
+
+/* Responsive for gradient layouts */
+@media (max-width: 768px) {
+    .bbk-brand-gradient-grid--layout-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .bbk-brand-gradient-grid--layout-row,
+    .bbk-brand-gradient-grid--layout-brand-chips {
+        flex-direction: column;
+        border-radius: var(--bbk-radius-lg);
+    }
+    
+    .bbk-brand-gradient-grid--layout-row .bbk-brand-gradient-swatch--chip:first-child,
+    .bbk-brand-gradient-grid--layout-row .bbk-brand-gradient-swatch--chip:last-child {
+        border-radius: 0;
+    }
+}
+
+/* ==========================================================================
+   Typography Samples Block - NEW Layout System
+   ========================================================================== */
+
+/* Typography Grid */
+.bbk-brand-typography-grid {
+    display: grid;
+    gap: 1rem;
+}
+
+/* Layout: Stack */
+.bbk-brand-typography-samples--layout-stack .bbk-brand-typography-grid {
+    grid-template-columns: 1fr;
+}
+
+/* Layout: Grid */
+.bbk-brand-typography-samples--layout-grid .bbk-brand-typography-grid {
+    grid-template-columns: repeat(var(--bbk-columns, 2), 1fr);
+}
+
+/* Layout: List */
+.bbk-brand-typography-samples--layout-list .bbk-brand-typography-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+}
+
+.bbk-brand-typography-samples--layout-list .bbk-brand-font-family,
+.bbk-brand-typography-samples--layout-list .bbk-brand-font-size {
+    border-radius: 0;
+    border-bottom: 1px solid var(--bbk-border-color);
+    margin-bottom: 0;
+}
+
+.bbk-brand-typography-samples--layout-list .bbk-brand-font-family:first-child,
+.bbk-brand-typography-samples--layout-list .bbk-brand-font-size:first-child {
+    border-radius: var(--bbk-radius-lg) var(--bbk-radius-lg) 0 0;
+}
+
+.bbk-brand-typography-samples--layout-list .bbk-brand-font-family:last-child,
+.bbk-brand-typography-samples--layout-list .bbk-brand-font-size:last-child {
+    border-radius: 0 0 var(--bbk-radius-lg) var(--bbk-radius-lg);
+    border-bottom: none;
+}
+
+/* Layout: Cards */
+.bbk-brand-typography-samples--layout-cards .bbk-brand-typography-grid {
+    grid-template-columns: repeat(var(--bbk-columns, 2), 1fr);
+    gap: 1.25rem;
+}
+
+/* Card Style: Card */
+.bbk-brand-font-family--card,
+.bbk-brand-font-size--card {
+    background: var(--bbk-bg-card);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--bbk-border-color);
+    border-radius: var(--bbk-radius-lg);
+    padding: 24px;
+    transition: all var(--bbk-transition);
+}
+
+.bbk-brand-font-family--card:hover,
+.bbk-brand-font-size--card:hover {
+    border-color: var(--bbk-border-color-hover);
+    transform: translateY(-2px);
+}
+
+/* Card Style: Minimal */
+.bbk-brand-font-family--minimal,
+.bbk-brand-font-size--minimal {
+    background: transparent;
+    border: none;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--bbk-border-color);
+}
+
+.bbk-brand-font-family--minimal:last-child,
+.bbk-brand-font-size--minimal:last-child {
+    border-bottom: none;
+}
+
+/* Card Style: Bordered */
+.bbk-brand-font-family--bordered,
+.bbk-brand-font-size--bordered {
+    background: transparent;
+    border: 2px solid var(--bbk-border-color);
+    border-radius: var(--bbk-radius-lg);
+    padding: 24px;
+    transition: all var(--bbk-transition);
+}
+
+.bbk-brand-font-family--bordered:hover,
+.bbk-brand-font-size--bordered:hover {
+    border-color: var(--bbk-accent);
+}
+
+/* Brand Card Style (21C) */
+.bbk-brand-font-family--brand-card,
+.bbk-brand-font-size--brand-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: var(--bbk-radius-xl);
+    padding: 28px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+.bbk-brand-font-family--brand-card:hover,
+.bbk-brand-font-size--brand-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.bbk-brand-font-family--brand-card .bbk-brand-font-family__name,
+.bbk-brand-font-size--brand-card .bbk-brand-font-size__name {
+    color: #171A1F;
+}
+
+.bbk-brand-font-family--brand-card .bbk-brand-font-family__sample,
+.bbk-brand-font-size--brand-card .bbk-brand-font-size__sample {
+    color: #171A1F;
+}
+
+/* Brand Minimal Style (21C) */
+.bbk-brand-font-family--brand-minimal,
+.bbk-brand-font-size--brand-minimal {
+    background: transparent;
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.bbk-brand-font-family--brand-minimal:last-child,
+.bbk-brand-font-size--brand-minimal:last-child {
+    border-bottom: none;
+}
+
+.bbk-brand-font-family--brand-minimal .bbk-brand-font-family__name,
+.bbk-brand-font-size--brand-minimal .bbk-brand-font-size__name {
+    color: #171A1F;
+}
+
+/* Responsive for typography layouts */
+@media (max-width: 768px) {
+    .bbk-brand-typography-samples--layout-grid .bbk-brand-typography-grid,
+    .bbk-brand-typography-samples--layout-cards .bbk-brand-typography-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ==========================================================================
    Typography Samples Block
    ========================================================================== */
 
@@ -1336,7 +1925,8 @@
    Click-to-Copy Feedback
    ========================================================================== */
 
-.bbk-brand-color-swatch[data-color] {
+.bbk-brand-color-swatch[data-color],
+.bbk-brand-gradient-swatch[data-gradient] {
     cursor: pointer;
     position: relative;
 }
