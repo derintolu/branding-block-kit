@@ -1142,6 +1142,33 @@
     padding: 16px 20px 20px;
 }
 
+.bbk-brand-gradient-swatch--card .bbk-brand-gradient-swatch__preview {
+    position: relative;
+}
+
+.bbk-brand-gradient-swatch--card .bbk-brand-gradient-swatch__overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.bbk-brand-gradient-swatch--card:hover .bbk-brand-gradient-swatch__overlay {
+    opacity: 1;
+}
+
+.bbk-brand-gradient-swatch--card .bbk-brand-gradient-swatch__overlay .bbk-brand-gradient-swatch__name {
+    font-size: 13px;
+    font-weight: 600;
+    color: white;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
 /* Style: Large Card */
 .bbk-brand-gradient-swatch--large-card {
     background: var(--bbk-bg-card);
@@ -1166,17 +1193,94 @@
     padding: 24px;
 }
 
+.bbk-brand-gradient-swatch--large-card .bbk-brand-gradient-swatch__preview {
+    position: relative;
+}
+
+.bbk-brand-gradient-swatch--large-card .bbk-brand-gradient-swatch__overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.bbk-brand-gradient-swatch--large-card:hover .bbk-brand-gradient-swatch__overlay {
+    opacity: 1;
+}
+
+.bbk-brand-gradient-swatch--large-card .bbk-brand-gradient-swatch__overlay .bbk-brand-gradient-swatch__name {
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
 /* Style: Bar */
 .bbk-brand-gradient-swatch--bar .bbk-brand-gradient-swatch__preview {
     height: 48px;
     min-height: 48px;
     border-radius: var(--bbk-radius-md);
+    position: relative;
+}
+
+.bbk-brand-gradient-swatch--bar .bbk-brand-gradient-swatch__overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: var(--bbk-radius-md);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.bbk-brand-gradient-swatch--bar:hover .bbk-brand-gradient-swatch__overlay {
+    opacity: 1;
+}
+
+.bbk-brand-gradient-swatch--bar .bbk-brand-gradient-swatch__overlay .bbk-brand-gradient-swatch__name {
+    font-size: 12px;
+    font-weight: 600;
+    color: white;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
 }
 
 /* Style: Square */
 .bbk-brand-gradient-swatch--square .bbk-brand-gradient-swatch__preview {
     aspect-ratio: 1;
     min-height: unset;
+    position: relative;
+    border-radius: var(--bbk-radius-lg);
+}
+
+.bbk-brand-gradient-swatch--square .bbk-brand-gradient-swatch__overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: var(--bbk-radius-lg);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.bbk-brand-gradient-swatch--square:hover .bbk-brand-gradient-swatch__overlay {
+    opacity: 1;
+}
+
+.bbk-brand-gradient-swatch--square .bbk-brand-gradient-swatch__overlay .bbk-brand-gradient-swatch__name {
+    font-size: 12px;
+    font-weight: 600;
+    color: white;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
 }
 
 /* Style: Circle */
@@ -1191,10 +1295,38 @@
     border-radius: 50%;
     margin: 0 auto;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
 }
 
 .bbk-brand-gradient-swatch--circle:hover .bbk-brand-gradient-swatch__preview {
     transform: scale(1.1);
+}
+
+.bbk-brand-gradient-swatch--circle .bbk-brand-gradient-swatch__overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.bbk-brand-gradient-swatch--circle:hover .bbk-brand-gradient-swatch__overlay {
+    opacity: 1;
+}
+
+.bbk-brand-gradient-swatch--circle .bbk-brand-gradient-swatch__overlay .bbk-brand-gradient-swatch__name {
+    font-size: 10px;
+    font-weight: 600;
+    color: white;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    padding: 4px;
+    text-align: center;
 }
 
 /* Style: Pill */
@@ -1202,6 +1334,61 @@
     border-radius: 9999px;
     height: 40px;
     min-height: 40px;
+    position: relative;
+    overflow: hidden;
+}
+
+.bbk-brand-gradient-swatch--pill .bbk-brand-gradient-swatch__overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 9999px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.bbk-brand-gradient-swatch--pill:hover .bbk-brand-gradient-swatch__overlay {
+    opacity: 1;
+}
+
+.bbk-brand-gradient-swatch--pill .bbk-brand-gradient-swatch__overlay .bbk-brand-gradient-swatch__name {
+    font-size: 11px;
+    font-weight: 600;
+    color: white;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+/* Style: Minimal */
+.bbk-brand-gradient-swatch--minimal .bbk-brand-gradient-swatch__preview {
+    border-radius: var(--bbk-radius-sm);
+    position: relative;
+}
+
+.bbk-brand-gradient-swatch--minimal .bbk-brand-gradient-swatch__overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: var(--bbk-radius-sm);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.bbk-brand-gradient-swatch--minimal:hover .bbk-brand-gradient-swatch__overlay {
+    opacity: 1;
+}
+
+.bbk-brand-gradient-swatch--minimal .bbk-brand-gradient-swatch__overlay .bbk-brand-gradient-swatch__name {
+    font-size: 11px;
+    font-weight: 600;
+    color: white;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
 }
 
 /* Style: Chip (Expandable) */
