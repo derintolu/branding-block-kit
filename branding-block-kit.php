@@ -4,8 +4,8 @@
  * Plugin URI: https://github.com/derintolu/branding-block-kit
  * Description: Visual blocks that automatically display your theme.json design tokens - colors, gradients, typography, spacing, and more. Build comprehensive brand style guides from your theme's configuration.
  * Version: 1.0.0
- * Author: Derin Oluwole
- * Author URI: https://derinoluwole.com
+ * Author: Derin Tolu
+ * Author URI: https://derintolu.com
  * License: GPL v2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: branding-block-kit

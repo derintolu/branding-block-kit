@@ -1,0 +1,19 @@
+# Dependencies
+node_modules/
+
+# Build artifacts (keep build/ since it's the compiled JS)
+*.log
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# WordPress
+*.sql
+*.sql.gz
