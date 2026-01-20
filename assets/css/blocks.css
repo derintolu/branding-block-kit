@@ -1789,7 +1789,7 @@
     background: var(--bbk-bg-card);
     border: 1px solid var(--bbk-border-color);
     border-radius: var(--bbk-radius-lg);
-    padding: 24px;
+    padding: 32px;
     box-shadow: var(--bbk-shadow-sm);
     transition: all var(--bbk-transition);
 }
@@ -1821,7 +1821,7 @@
     background: transparent;
     border: 2px solid var(--bbk-border-color);
     border-radius: var(--bbk-radius-lg);
-    padding: 24px;
+    padding: 32px;
     transition: all var(--bbk-transition);
 }
 
