@@ -229,10 +229,10 @@ final class Branding_Block_Kit {
         $groupLabel = $attributes['groupLabel'] ?? '';
 
         // Brand styles that use overlay for hover text reveal
-        $overlay_styles = array( 'chip', 'row', 'brand-chips', 'brand-squares', 'brand-bars', 'brand-cards' );
+        $overlay_styles = array( 'chip', 'row', 'brand-chips', 'brand-squares', 'brand-bars', 'brand-cards', 'grid-expand' );
         
         // Brand styles need their own layout class
-        $is_brand_style = in_array( $style, array( 'brand-chips', 'brand-squares', 'brand-bars', 'brand-cards' ), true );
+        $is_brand_style = in_array( $style, array( 'brand-chips', 'brand-squares', 'brand-bars', 'brand-cards', 'grid-expand' ), true );
 
         // Build CSS classes
         $grid_classes = array(
@@ -329,10 +329,10 @@ final class Branding_Block_Kit {
         $columns = absint( $attributes['columns'] ?? 3 );
 
         // Styles that use overlay for hover text reveal
-        $overlay_styles = array( 'chip', 'brand-chips', 'brand-squares', 'brand-bars', 'brand-cards' );
+        $overlay_styles = array( 'chip', 'brand-chips', 'brand-squares', 'brand-bars', 'brand-cards', 'grid-expand' );
         
         // Brand styles need their own layout class
-        $is_brand_style = in_array( $style, array( 'brand-chips', 'brand-squares', 'brand-bars', 'brand-cards' ), true );
+        $is_brand_style = in_array( $style, array( 'brand-chips', 'brand-squares', 'brand-bars', 'brand-cards', 'grid-expand' ), true );
 
         $grid_classes = array(
             'bbk-brand-gradient-grid',

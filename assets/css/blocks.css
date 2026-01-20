@@ -822,6 +822,94 @@
     }
 }
 
+/* --- Grid Expand Style (Touching grid, expand on hover) --- */
+.bbk-brand-color-grid--layout-grid-expand,
+.bbk-brand-color-grid--grid-expand {
+    display: grid;
+    grid-template-columns: repeat(var(--bbk-columns, 4), 1fr);
+    gap: 0;
+    border-radius: var(--bbk-radius-xl);
+    overflow: hidden;
+    box-shadow: var(--bbk-shadow-md);
+}
+
+.bbk-brand-color-swatch--grid-expand {
+    position: relative;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
+}
+
+.bbk-brand-color-swatch--grid-expand:hover {
+    transform: scale(1.15);
+    z-index: 10;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+    border-radius: var(--bbk-radius-md);
+}
+
+.bbk-brand-color-swatch--grid-expand .bbk-brand-color-swatch__color {
+    aspect-ratio: 1;
+    position: relative;
+    border-radius: 0;
+}
+
+.bbk-brand-color-swatch--grid-expand .bbk-brand-color-swatch__overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    padding: 8px;
+    text-align: center;
+}
+
+.bbk-brand-color-swatch--grid-expand:hover .bbk-brand-color-swatch__overlay {
+    opacity: 1;
+}
+
+.bbk-brand-color-swatch--grid-expand .bbk-brand-color-swatch__overlay .bbk-brand-color-swatch__name {
+    font-size: 11px;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 2px;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.bbk-brand-color-swatch--grid-expand .bbk-brand-color-swatch__overlay .bbk-brand-color-swatch__hex {
+    font-size: 10px;
+    font-family: var(--bbk-font-mono);
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Size variations for grid-expand */
+.bbk-brand-color-swatch--grid-expand.bbk-brand-color-swatch--size-small .bbk-brand-color-swatch__color {
+    min-height: 60px;
+}
+.bbk-brand-color-swatch--grid-expand.bbk-brand-color-swatch--size-medium .bbk-brand-color-swatch__color {
+    min-height: 80px;
+}
+.bbk-brand-color-swatch--grid-expand.bbk-brand-color-swatch--size-large .bbk-brand-color-swatch__color {
+    min-height: 120px;
+}
+
+@media (max-width: 768px) {
+    .bbk-brand-color-grid--layout-grid-expand,
+    .bbk-brand-color-grid--grid-expand {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .bbk-brand-color-grid--layout-grid-expand,
+    .bbk-brand-color-grid--grid-expand {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
 /* ==========================================================================
    Gradient Showcase Block
    ========================================================================== */
@@ -1363,6 +1451,81 @@
 .bbk-brand-gradient-swatch--brand-cards .bbk-brand-gradient-swatch__info .bbk-brand-gradient-swatch__code {
     font-size: 11px;
     color: #444B57;
+}
+
+/* --- Grid Expand Style for Gradients (Touching grid, expand on hover) --- */
+.bbk-brand-gradient-grid--layout-grid-expand,
+.bbk-brand-gradient-grid--grid-expand {
+    display: grid;
+    grid-template-columns: repeat(var(--bbk-columns, 3), 1fr);
+    gap: 0;
+    border-radius: var(--bbk-radius-xl);
+    overflow: hidden;
+    box-shadow: var(--bbk-shadow-md);
+}
+
+.bbk-brand-gradient-swatch--grid-expand {
+    position: relative;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
+}
+
+.bbk-brand-gradient-swatch--grid-expand:hover {
+    transform: scale(1.15);
+    z-index: 10;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+    border-radius: var(--bbk-radius-md);
+}
+
+.bbk-brand-gradient-swatch--grid-expand .bbk-brand-gradient-swatch__preview {
+    aspect-ratio: 1;
+    min-height: unset;
+    border-radius: 0;
+    position: relative;
+}
+
+.bbk-brand-gradient-swatch--grid-expand .bbk-brand-gradient-swatch__overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    padding: 8px;
+    text-align: center;
+}
+
+.bbk-brand-gradient-swatch--grid-expand:hover .bbk-brand-gradient-swatch__overlay {
+    opacity: 1;
+}
+
+.bbk-brand-gradient-swatch--grid-expand .bbk-brand-gradient-swatch__overlay .bbk-brand-gradient-swatch__name {
+    font-size: 11px;
+    font-weight: 600;
+    color: white;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+/* Size variations for grid-expand gradients */
+.bbk-brand-gradient-swatch--grid-expand.bbk-brand-gradient-swatch--size-small .bbk-brand-gradient-swatch__preview {
+    min-height: 60px;
+}
+.bbk-brand-gradient-swatch--grid-expand.bbk-brand-gradient-swatch--size-medium .bbk-brand-gradient-swatch__preview {
+    min-height: 80px;
+}
+.bbk-brand-gradient-swatch--grid-expand.bbk-brand-gradient-swatch--size-large .bbk-brand-gradient-swatch__preview {
+    min-height: 120px;
+}
+
+@media (max-width: 768px) {
+    .bbk-brand-gradient-grid--layout-grid-expand,
+    .bbk-brand-gradient-grid--grid-expand {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 /* Responsive for gradient layouts */
