@@ -185,6 +185,17 @@ final class Branding_Block_Kit {
             array(),
             BRANDING_BLOCK_KIT_VERSION
         );
+
+        // Frontend click-to-copy script (only on frontend, not in editor)
+        if ( ! is_admin() ) {
+            wp_enqueue_script(
+                'branding-block-kit-frontend',
+                BRANDING_BLOCK_KIT_URL . 'assets/js/frontend.js',
+                array(),
+                BRANDING_BLOCK_KIT_VERSION,
+                true
+            );
+        }
     }
 
     /**
@@ -246,7 +257,7 @@ final class Branding_Block_Kit {
             
             <div class="<?php echo esc_attr( implode( ' ', $grid_classes ) ); ?>" style="--bbk-columns: <?php echo esc_attr( $columns ); ?>">
                 <?php foreach ( $colors as $color ) : ?>
-                    <div class="bbk-brand-color-swatch bbk-brand-color-swatch--<?php echo esc_attr( $style ); ?> bbk-brand-color-swatch--size-<?php echo esc_attr( $size ); ?>">
+                    <div class="bbk-brand-color-swatch bbk-brand-color-swatch--<?php echo esc_attr( $style ); ?> bbk-brand-color-swatch--size-<?php echo esc_attr( $size ); ?>" data-color="<?php echo esc_attr( $color['color'] ); ?>" title="<?php echo esc_attr( sprintf( __( 'Click to copy %s', 'branding-block-kit' ), $color['color'] ) ); ?>">
                         <div class="bbk-brand-color-swatch__color" style="background-color: <?php echo esc_attr( $color['color'] ); ?>">
                             <?php if ( in_array( $style, $overlay_styles, true ) ) : ?>
                                 <div class="bbk-brand-color-swatch__overlay">

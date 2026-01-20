@@ -1331,3 +1331,42 @@
         background: #fff;
     }
 }
+
+/* ==========================================================================
+   Click-to-Copy Feedback
+   ========================================================================== */
+
+.bbk-brand-color-swatch[data-color] {
+    cursor: pointer;
+    position: relative;
+}
+
+.bbk-copy-feedback {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    background: rgba(0, 0, 0, 0.85);
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.bbk-copy-feedback--visible {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* Light feedback for dark swatches */
+.bbk-brand-color-swatch[data-color] .bbk-copy-feedback {
+    backdrop-filter: blur(8px);
+}
