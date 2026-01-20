@@ -123,6 +123,7 @@ final class Branding_Block_Kit {
                 'layout'       => array( 'type' => 'string', 'default' => 'stack' ), // stack, grid, list, cards
                 'columns'      => array( 'type' => 'number', 'default' => 2 ),
                 'cardStyle'    => array( 'type' => 'string', 'default' => 'card' ), // card, minimal, bordered, brand-card, brand-minimal
+                'textAlign'    => array( 'type' => 'string', 'default' => 'left' ), // left, right
             ),
         ) );
 
@@ -408,12 +409,14 @@ final class Branding_Block_Kit {
         $layout      = $attributes['layout'] ?? 'stack';
         $columns     = absint( $attributes['columns'] ?? 2 );
         $card_style  = $attributes['cardStyle'] ?? 'card';
+        $text_align  = $attributes['textAlign'] ?? 'left';
 
         $block_classes = array(
             'bbk-brand-block',
             'bbk-brand-typography-samples',
             'bbk-brand-typography-samples--layout-' . $layout,
             'bbk-brand-typography-samples--style-' . $card_style,
+            'bbk-brand-typography-samples--align-' . $text_align,
         );
 
         ob_start();

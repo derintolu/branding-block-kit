@@ -260,7 +260,8 @@
             display: { type: 'string', default: 'all' },
             layout: { type: 'string', default: 'stack' },
             columns: { type: 'number', default: 2 },
-            cardStyle: { type: 'string', default: 'card' }
+            cardStyle: { type: 'string', default: 'card' },
+            textAlign: { type: 'string', default: 'left' }
         },
         edit: function(props) {
             const { attributes, setAttributes } = props;
@@ -299,6 +300,16 @@
                                 { label: 'Brand Minimal (21C)', value: 'brand-minimal' }
                             ],
                             onChange: (val) => setAttributes({ cardStyle: val })
+                        }),
+                        el(SelectControl, {
+                            label: __('Text Alignment', 'branding-block-kit'),
+                            value: attributes.textAlign,
+                            options: [
+                                { label: 'Left', value: 'left' },
+                                { label: 'Center', value: 'center' },
+                                { label: 'Right', value: 'right' }
+                            ],
+                            onChange: (val) => setAttributes({ textAlign: val })
                         })
                     ),
                     el(PanelBody, { title: __('Content', 'branding-block-kit'), initialOpen: false },
