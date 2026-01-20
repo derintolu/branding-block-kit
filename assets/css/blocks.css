@@ -496,6 +496,321 @@
 }
 
 /* ==========================================================================
+   21st Century Brand Styles (Light Background)
+   Based on brand-guide.html - All feature hover-based text reveal
+   ========================================================================== */
+
+/* --- Brand Chips Style (Horizontal Expandable - from brand-guide.html) --- */
+.bbk-brand-color-grid--layout-brand-chips {
+    display: flex;
+    gap: 2px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+}
+
+.bbk-brand-color-swatch--brand-chips {
+    flex: 1;
+    position: relative;
+    cursor: pointer;
+    transition: flex 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bbk-brand-color-swatch--brand-chips:hover {
+    flex: 2;
+}
+
+.bbk-brand-color-swatch--brand-chips .bbk-brand-color-swatch__color {
+    height: 140px;
+    position: relative;
+}
+
+.bbk-brand-color-swatch--brand-chips.bbk-brand-color-swatch--size-small .bbk-brand-color-swatch__color {
+    height: 80px;
+}
+
+.bbk-brand-color-swatch--brand-chips.bbk-brand-color-swatch--size-large .bbk-brand-color-swatch__color {
+    height: 200px;
+}
+
+.bbk-brand-color-swatch--brand-chips .bbk-brand-color-swatch__overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 16px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
+    opacity: 0;
+    transform: translateY(8px);
+    transition: all 0.3s ease;
+}
+
+.bbk-brand-color-swatch--brand-chips:hover .bbk-brand-color-swatch__overlay {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.bbk-brand-color-swatch--brand-chips .bbk-brand-color-swatch__name {
+    font-size: 13px;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 2px;
+}
+
+.bbk-brand-color-swatch--brand-chips .bbk-brand-color-swatch__hex {
+    font-size: 11px;
+    font-family: ui-monospace, 'SF Mono', Monaco, monospace;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+@media (max-width: 600px) {
+    .bbk-brand-color-grid--layout-brand-chips {
+        flex-direction: column;
+        border-radius: 12px;
+    }
+    .bbk-brand-color-swatch--brand-chips .bbk-brand-color-swatch__color {
+        height: 80px;
+    }
+}
+
+/* --- Brand Squares Style (Grid with gaps, sharp corners, hover reveal) --- */
+.bbk-brand-color-grid--layout-brand-squares {
+    display: grid;
+    grid-template-columns: repeat(var(--bbk-columns, 4), 1fr);
+    gap: 12px;
+}
+
+.bbk-brand-color-swatch--brand-squares {
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.bbk-brand-color-swatch--brand-squares:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.bbk-brand-color-swatch--brand-squares .bbk-brand-color-swatch__color {
+    aspect-ratio: 1;
+    position: relative;
+    border-radius: 0; /* Sharp corners */
+}
+
+.bbk-brand-color-swatch--brand-squares .bbk-brand-color-swatch__overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 12px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent 80%);
+    opacity: 0;
+    transform: translateY(8px);
+    transition: all 0.3s ease;
+}
+
+.bbk-brand-color-swatch--brand-squares:hover .bbk-brand-color-swatch__overlay {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.bbk-brand-color-swatch--brand-squares .bbk-brand-color-swatch__name {
+    font-size: 12px;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 2px;
+}
+
+.bbk-brand-color-swatch--brand-squares .bbk-brand-color-swatch__hex {
+    font-size: 10px;
+    font-family: ui-monospace, 'SF Mono', Monaco, monospace;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+@media (max-width: 600px) {
+    .bbk-brand-color-grid--layout-brand-squares {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* --- Brand Bars Style (Full-width horizontal bars, stacked vertically) --- */
+.bbk-brand-color-grid--layout-brand-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+}
+
+.bbk-brand-color-swatch--brand-bars {
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.bbk-brand-color-swatch--brand-bars:hover {
+    z-index: 1;
+}
+
+.bbk-brand-color-swatch--brand-bars .bbk-brand-color-swatch__color {
+    height: 56px;
+    position: relative;
+    transition: height 0.3s ease;
+}
+
+.bbk-brand-color-swatch--brand-bars:hover .bbk-brand-color-swatch__color {
+    height: 72px;
+}
+
+.bbk-brand-color-swatch--brand-bars.bbk-brand-color-swatch--size-small .bbk-brand-color-swatch__color {
+    height: 40px;
+}
+
+.bbk-brand-color-swatch--brand-bars.bbk-brand-color-swatch--size-small:hover .bbk-brand-color-swatch__color {
+    height: 52px;
+}
+
+.bbk-brand-color-swatch--brand-bars.bbk-brand-color-swatch--size-large .bbk-brand-color-swatch__color {
+    height: 80px;
+}
+
+.bbk-brand-color-swatch--brand-bars.bbk-brand-color-swatch--size-large:hover .bbk-brand-color-swatch__color {
+    height: 100px;
+}
+
+.bbk-brand-color-swatch--brand-bars .bbk-brand-color-swatch__overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.4) 0%, transparent 50%, rgba(0, 0, 0, 0.4) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.bbk-brand-color-swatch--brand-bars:hover .bbk-brand-color-swatch__overlay {
+    opacity: 1;
+}
+
+.bbk-brand-color-swatch--brand-bars .bbk-brand-color-swatch__name {
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+}
+
+.bbk-brand-color-swatch--brand-bars .bbk-brand-color-swatch__hex {
+    font-size: 12px;
+    font-family: ui-monospace, 'SF Mono', Monaco, monospace;
+    color: rgba(255, 255, 255, 0.9);
+    background: rgba(0, 0, 0, 0.2);
+    padding: 4px 10px;
+    border-radius: 4px;
+}
+
+/* --- Brand Cards Style (Glassmorphic cards with hover lift) --- */
+.bbk-brand-color-grid--layout-brand-cards {
+    display: grid;
+    grid-template-columns: repeat(var(--bbk-columns, 4), 1fr);
+    gap: 20px;
+}
+
+.bbk-brand-color-swatch--brand-cards {
+    position: relative;
+    cursor: pointer;
+    background: #ffffff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bbk-brand-color-swatch--brand-cards:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12);
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+.bbk-brand-color-swatch--brand-cards .bbk-brand-color-swatch__color {
+    height: 120px;
+    position: relative;
+}
+
+.bbk-brand-color-swatch--brand-cards.bbk-brand-color-swatch--size-small .bbk-brand-color-swatch__color {
+    height: 80px;
+}
+
+.bbk-brand-color-swatch--brand-cards.bbk-brand-color-swatch--size-large .bbk-brand-color-swatch__color {
+    height: 160px;
+}
+
+.bbk-brand-color-swatch--brand-cards .bbk-brand-color-swatch__overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 16px 20px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.65), transparent);
+    opacity: 0;
+    transform: translateY(8px);
+    transition: all 0.3s ease;
+}
+
+.bbk-brand-color-swatch--brand-cards:hover .bbk-brand-color-swatch__overlay {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.bbk-brand-color-swatch--brand-cards .bbk-brand-color-swatch__overlay .bbk-brand-color-swatch__name {
+    font-size: 13px;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 2px;
+}
+
+.bbk-brand-color-swatch--brand-cards .bbk-brand-color-swatch__overlay .bbk-brand-color-swatch__hex {
+    font-size: 11px;
+    font-family: ui-monospace, 'SF Mono', Monaco, monospace;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.bbk-brand-color-swatch--brand-cards .bbk-brand-color-swatch__info {
+    padding: 20px;
+    background: #ffffff;
+}
+
+.bbk-brand-color-swatch--brand-cards .bbk-brand-color-swatch__info .bbk-brand-color-swatch__name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #171A1F;
+    margin-bottom: 4px;
+}
+
+.bbk-brand-color-swatch--brand-cards .bbk-brand-color-swatch__info .bbk-brand-color-swatch__hex {
+    font-size: 12px;
+    font-family: ui-monospace, 'SF Mono', Monaco, monospace;
+    color: #444B57;
+}
+
+@media (max-width: 900px) {
+    .bbk-brand-color-grid--layout-brand-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .bbk-brand-color-grid--layout-brand-cards {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ==========================================================================
    Gradient Showcase Block
    ========================================================================== */
 

@@ -73,7 +73,12 @@
                                 { label: 'Square', value: 'square' },
                                 { label: 'Pill', value: 'pill' },
                                 { label: 'Stripe', value: 'stripe' },
-                                { label: 'Minimal', value: 'minimal' }
+                                { label: 'Minimal', value: 'minimal' },
+                                { label: '— 21C Brand Styles —', value: '', disabled: true },
+                                { label: 'Brand Chips (21C)', value: 'brand-chips' },
+                                { label: 'Brand Squares (21C)', value: 'brand-squares' },
+                                { label: 'Brand Bars (21C)', value: 'brand-bars' },
+                                { label: 'Brand Cards (21C)', value: 'brand-cards' }
                             ],
                             onChange: (val) => setAttributes({ swatchStyle: val })
                         }),

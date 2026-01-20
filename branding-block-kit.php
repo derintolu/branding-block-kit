@@ -212,13 +212,26 @@ final class Branding_Block_Kit {
         $columns    = absint( $attributes['columns'] ?? 4 );
         $groupLabel = $attributes['groupLabel'] ?? '';
 
+        // Brand styles that use overlay for hover text reveal
+        $overlay_styles = array( 'chip', 'row', 'brand-chips', 'brand-squares', 'brand-bars', 'brand-cards' );
+        
+        // Brand styles need their own layout class
+        $is_brand_style = in_array( $style, array( 'brand-chips', 'brand-squares', 'brand-bars', 'brand-cards' ), true );
+
         // Build CSS classes
         $grid_classes = array(
             'bbk-brand-color-grid',
             'bbk-brand-color-grid--' . $style,
-            'bbk-brand-color-grid--layout-' . $layout,
-            'bbk-brand-color-grid--size-' . $size,
         );
+        
+        // For brand styles, use the style as the layout; otherwise use the layout attribute
+        if ( $is_brand_style ) {
+            $grid_classes[] = 'bbk-brand-color-grid--layout-' . $style;
+        } else {
+            $grid_classes[] = 'bbk-brand-color-grid--layout-' . $layout;
+        }
+        
+        $grid_classes[] = 'bbk-brand-color-grid--size-' . $size;
 
         ob_start();
         ?>
@@ -235,7 +248,7 @@ final class Branding_Block_Kit {
                 <?php foreach ( $colors as $color ) : ?>
                     <div class="bbk-brand-color-swatch bbk-brand-color-swatch--<?php echo esc_attr( $style ); ?> bbk-brand-color-swatch--size-<?php echo esc_attr( $size ); ?>">
                         <div class="bbk-brand-color-swatch__color" style="background-color: <?php echo esc_attr( $color['color'] ); ?>">
-                            <?php if ( $style === 'chip' || $style === 'row' ) : ?>
+                            <?php if ( in_array( $style, $overlay_styles, true ) ) : ?>
                                 <div class="bbk-brand-color-swatch__overlay">
                                     <?php if ( $attributes['showName'] ) : ?>
                                         <span class="bbk-brand-color-swatch__name"><?php echo esc_html( $color['name'] ); ?></span>
@@ -248,7 +261,18 @@ final class Branding_Block_Kit {
                                 <span class="bbk-brand-color-swatch__hex"><?php echo esc_html( $color['color'] ); ?></span>
                             <?php endif; ?>
                         </div>
-                        <?php if ( ! in_array( $style, array( 'chip', 'row' ), true ) && ( $attributes['showName'] || $attributes['showSlug'] || ( $attributes['showHex'] && ! in_array( $style, array( 'card', 'large-card', 'minimal' ), true ) ) ) ) : ?>
+                        <?php 
+                        // Show info section for non-overlay styles OR for brand-cards (which has both overlay and info)
+                        $show_info = ! in_array( $style, array( 'chip', 'row', 'brand-chips', 'brand-squares', 'brand-bars' ), true ) 
+                                     && ( $attributes['showName'] || $attributes['showSlug'] || ( $attributes['showHex'] && ! in_array( $style, array( 'card', 'large-card', 'minimal' ), true ) ) );
+                        
+                        // Brand cards always show info section
+                        if ( $style === 'brand-cards' ) {
+                            $show_info = true;
+                        }
+                        
+                        if ( $show_info ) : 
+                        ?>
                             <div class="bbk-brand-color-swatch__info">
                                 <?php if ( $attributes['showName'] ) : ?>
                                     <span class="bbk-brand-color-swatch__name"><?php echo esc_html( $color['name'] ); ?></span>
@@ -256,8 +280,11 @@ final class Branding_Block_Kit {
                                 <?php if ( $attributes['showSlug'] ) : ?>
                                     <code class="bbk-brand-color-swatch__slug">--wp--preset--color--<?php echo esc_html( $color['slug'] ); ?></code>
                                 <?php endif; ?>
-                                <?php if ( $attributes['showHex'] && ! in_array( $style, array( 'card', 'large-card', 'minimal' ), true ) ) : ?>
+                                <?php if ( $attributes['showHex'] && ! in_array( $style, array( 'card', 'large-card', 'minimal', 'brand-cards' ), true ) ) : ?>
                                     <span class="bbk-brand-color-swatch__hex-below"><?php echo esc_html( $color['color'] ); ?></span>
+                                <?php endif; ?>
+                                <?php if ( $attributes['showHex'] && $style === 'brand-cards' ) : ?>
+                                    <span class="bbk-brand-color-swatch__hex"><?php echo esc_html( $color['color'] ); ?></span>
                                 <?php endif; ?>
                             </div>
                         <?php endif; ?>
