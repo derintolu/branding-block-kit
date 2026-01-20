@@ -12,15 +12,17 @@
    CSS Custom Properties (Theme Variables)
    ========================================================================== */
 
+/* Light mode is default */
 .bbk-brand-block {
-    --bbk-bg-card: rgba(255, 255, 255, 0.02);
-    --bbk-bg-card-hover: rgba(255, 255, 255, 0.04);
-    --bbk-border-color: rgba(255, 255, 255, 0.06);
-    --bbk-border-color-hover: rgba(255, 255, 255, 0.1);
-    --bbk-text-primary: #ffffff;
-    --bbk-text-secondary: #B6C7D9;
-    --bbk-text-tertiary: #444B57;
-    --bbk-accent: #20D4DA;
+    --bbk-bg-card: #ffffff;
+    --bbk-bg-card-hover: #ffffff;
+    --bbk-bg-subtle: #f8f9fa;
+    --bbk-border-color: rgba(0, 0, 0, 0.1);
+    --bbk-border-color-hover: rgba(0, 0, 0, 0.2);
+    --bbk-text-primary: #171A1F;
+    --bbk-text-secondary: #374151;
+    --bbk-text-tertiary: #6B7280;
+    --bbk-accent: #2563EB;
     --bbk-font-mono: ui-monospace, 'SF Mono', Monaco, 'Cascadia Code', monospace;
     --bbk-radius-sm: 8px;
     --bbk-radius-md: 12px;
@@ -28,19 +30,26 @@
     --bbk-radius-xl: 20px;
     --bbk-radius-2xl: 24px;
     --bbk-transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --bbk-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+    --bbk-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --bbk-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 
-/* Light mode overrides */
-[data-theme="light"] .bbk-brand-block,
-.is-light-theme .bbk-brand-block,
-.editor-styles-wrapper .bbk-brand-block {
-    --bbk-bg-card: rgba(255, 255, 255, 0.9);
-    --bbk-bg-card-hover: rgba(255, 255, 255, 1);
-    --bbk-border-color: rgba(0, 0, 0, 0.08);
-    --bbk-border-color-hover: rgba(0, 0, 0, 0.12);
-    --bbk-text-primary: #171A1F;
-    --bbk-text-secondary: #444B57;
-    --bbk-text-tertiary: #405C7A;
+/* Dark mode overrides */
+[data-theme="dark"] .bbk-brand-block,
+.is-dark-theme .bbk-brand-block {
+    --bbk-bg-card: rgba(255, 255, 255, 0.05);
+    --bbk-bg-card-hover: rgba(255, 255, 255, 0.08);
+    --bbk-bg-subtle: rgba(255, 255, 255, 0.02);
+    --bbk-border-color: rgba(255, 255, 255, 0.1);
+    --bbk-border-color-hover: rgba(255, 255, 255, 0.2);
+    --bbk-text-primary: #ffffff;
+    --bbk-text-secondary: #B6C7D9;
+    --bbk-text-tertiary: #8899A8;
+    --bbk-accent: #20D4DA;
+    --bbk-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+    --bbk-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+    --bbk-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
 }
 
 /* ==========================================================================
@@ -154,10 +163,10 @@
 /* --- Card Style --- */
 .bbk-brand-color-swatch--card {
     background: var(--bbk-bg-card);
-    backdrop-filter: blur(20px);
     border-radius: var(--bbk-radius-xl);
     overflow: hidden;
     border: 1px solid var(--bbk-border-color);
+    box-shadow: var(--bbk-shadow-sm);
     transition: all var(--bbk-transition);
 }
 
@@ -165,6 +174,7 @@
     background: var(--bbk-bg-card-hover);
     border-color: var(--bbk-border-color-hover);
     transform: translateY(-4px);
+    box-shadow: var(--bbk-shadow-lg);
 }
 
 .bbk-brand-color-swatch--card .bbk-brand-color-swatch__color {
@@ -203,16 +213,18 @@
 /* --- Large Card Style --- */
 .bbk-brand-color-swatch--large-card {
     background: var(--bbk-bg-card);
-    backdrop-filter: blur(20px);
     border-radius: var(--bbk-radius-2xl);
     overflow: hidden;
     border: 1px solid var(--bbk-border-color);
+    box-shadow: var(--bbk-shadow-sm);
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .bbk-brand-color-swatch--large-card:hover {
-    transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.15);
+    background: var(--bbk-bg-card-hover);
+    border-color: var(--bbk-border-color-hover);
+    transform: translateY(-6px);
+    box-shadow: var(--bbk-shadow-lg);
 }
 
 .bbk-brand-color-swatch--large-card .bbk-brand-color-swatch__color {
@@ -846,10 +858,10 @@
 /* Gradient Item Base */
 .bbk-brand-gradient-item {
     background: var(--bbk-bg-card);
-    backdrop-filter: blur(20px);
     border: 1px solid var(--bbk-border-color);
     border-radius: var(--bbk-radius-xl);
     padding: 24px;
+    box-shadow: var(--bbk-shadow-sm);
     transition: all 0.4s ease;
 }
 
@@ -857,6 +869,7 @@
     background: var(--bbk-bg-card-hover);
     border-color: var(--bbk-border-color-hover);
     transform: translateY(-4px);
+    box-shadow: var(--bbk-shadow-lg);
 }
 
 .bbk-brand-gradient-item__preview {
@@ -1021,16 +1034,16 @@
 /* Style: Card */
 .bbk-brand-gradient-swatch--card {
     background: var(--bbk-bg-card);
-    backdrop-filter: blur(20px);
     border: 1px solid var(--bbk-border-color);
     border-radius: var(--bbk-radius-xl);
     overflow: hidden;
+    box-shadow: var(--bbk-shadow-sm);
 }
 
 .bbk-brand-gradient-swatch--card:hover {
     border-color: var(--bbk-border-color-hover);
     transform: translateY(-4px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    box-shadow: var(--bbk-shadow-lg);
 }
 
 .bbk-brand-gradient-swatch--card .bbk-brand-gradient-swatch__preview {
@@ -1044,16 +1057,16 @@
 /* Style: Large Card */
 .bbk-brand-gradient-swatch--large-card {
     background: var(--bbk-bg-card);
-    backdrop-filter: blur(20px);
     border: 1px solid var(--bbk-border-color);
     border-radius: var(--bbk-radius-2xl);
     overflow: hidden;
+    box-shadow: var(--bbk-shadow-sm);
 }
 
 .bbk-brand-gradient-swatch--large-card:hover {
     border-color: var(--bbk-border-color-hover);
     transform: translateY(-6px);
-    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--bbk-shadow-lg);
 }
 
 .bbk-brand-gradient-swatch--large-card .bbk-brand-gradient-swatch__preview {
@@ -1424,10 +1437,10 @@
 .bbk-brand-font-family--card,
 .bbk-brand-font-size--card {
     background: var(--bbk-bg-card);
-    backdrop-filter: blur(20px);
     border: 1px solid var(--bbk-border-color);
     border-radius: var(--bbk-radius-lg);
     padding: 24px;
+    box-shadow: var(--bbk-shadow-sm);
     transition: all var(--bbk-transition);
 }
 
@@ -1435,6 +1448,7 @@
 .bbk-brand-font-size--card:hover {
     border-color: var(--bbk-border-color-hover);
     transform: translateY(-2px);
+    box-shadow: var(--bbk-shadow-md);
 }
 
 /* Card Style: Minimal */
@@ -1542,21 +1556,21 @@
 /* Type Specimen Card */
 .bbk-brand-type-specimen {
     background: var(--bbk-bg-card);
-    backdrop-filter: blur(20px);
     border: 1px solid var(--bbk-border-color);
     border-radius: var(--bbk-radius-2xl);
     padding: 48px;
     margin-bottom: 24px;
+    box-shadow: var(--bbk-shadow-sm);
 }
 
 /* Font Family Items */
 .bbk-brand-font-family {
     background: var(--bbk-bg-card);
-    backdrop-filter: blur(20px);
     border: 1px solid var(--bbk-border-color);
     border-radius: var(--bbk-radius-lg);
     padding: 24px;
     margin-bottom: 1rem;
+    box-shadow: var(--bbk-shadow-sm);
 }
 
 .bbk-brand-font-family__sample {
@@ -1817,10 +1831,10 @@
 .bbk-brand-custom-section {
     margin-bottom: 2rem;
     background: var(--bbk-bg-card);
-    backdrop-filter: blur(20px);
     border: 1px solid var(--bbk-border-color);
     border-radius: var(--bbk-radius-lg);
     padding: 24px;
+    box-shadow: var(--bbk-shadow-sm);
 }
 
 .bbk-brand-custom-section:last-child {
