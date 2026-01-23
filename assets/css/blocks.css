@@ -1794,6 +1794,13 @@
     transition: all var(--bbk-transition);
 }
 
+.bbk-brand-font-size--card,
+.bbk-brand-font-size--card:first-child,
+.bbk-brand-font-size--card:last-child {
+    padding: 32px;
+    border-bottom: none;
+}
+
 .bbk-brand-font-family--card:hover,
 .bbk-brand-font-size--card:hover {
     border-color: var(--bbk-border-color-hover);
@@ -1825,6 +1832,13 @@
     transition: all var(--bbk-transition);
 }
 
+.bbk-brand-font-size--bordered,
+.bbk-brand-font-size--bordered:first-child,
+.bbk-brand-font-size--bordered:last-child {
+    padding: 32px;
+    border-bottom: none;
+}
+
 .bbk-brand-font-family--bordered:hover,
 .bbk-brand-font-size--bordered:hover {
     border-color: var(--bbk-accent);
@@ -1838,6 +1852,13 @@
     padding: 28px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     transition: all 0.3s ease;
+}
+
+.bbk-brand-font-size--brand-card,
+.bbk-brand-font-size--brand-card:first-child,
+.bbk-brand-font-size--brand-card:last-child {
+    padding: 28px;
+    border-bottom: none;
 }
 
 .bbk-brand-font-family--brand-card:hover,
@@ -2351,4 +2372,141 @@
 /* Light feedback for dark swatches */
 .bbk-brand-color-swatch[data-color] .bbk-copy-feedback {
     backdrop-filter: blur(8px);
+}
+
+/* ==========================================================================
+   Logo Showcase Block
+   ========================================================================== */
+
+.bbk-brand-logo-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--bbk-columns, 2), 1fr);
+    gap: 1.5rem;
+}
+
+.bbk-brand-logo-grid--layout-list {
+    grid-template-columns: 1fr;
+}
+
+/* Logo Box Base */
+.bbk-brand-logo-box {
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--bbk-radius-lg);
+    overflow: hidden;
+    transition: all var(--bbk-transition);
+}
+
+/* Logo Box Preview Area */
+.bbk-brand-logo-box__preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+    min-height: 120px;
+}
+
+.bbk-brand-logo-box__image {
+    max-width: 100%;
+    max-height: 100px;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Logo Box Info */
+.bbk-brand-logo-box__info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    gap: 12px;
+}
+
+.bbk-brand-logo-box__label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--bbk-text-primary);
+}
+
+.bbk-brand-logo-box__download {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    color: var(--bbk-text-tertiary);
+    background: var(--bbk-bg-subtle);
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.bbk-brand-logo-box__download:hover {
+    color: var(--bbk-accent);
+    background: var(--bbk-bg-card-hover);
+}
+
+/* Background Variations */
+.bbk-brand-logo-box--bg-light .bbk-brand-logo-box__preview {
+    background: #f8f9fa;
+}
+
+.bbk-brand-logo-box--bg-dark .bbk-brand-logo-box__preview {
+    background: #171A1F;
+}
+
+/* Card Style */
+.bbk-brand-logo-box--card {
+    background: var(--bbk-bg-card);
+    border: 1px solid var(--bbk-border-color);
+    box-shadow: var(--bbk-shadow-sm);
+}
+
+.bbk-brand-logo-box--card:hover {
+    border-color: var(--bbk-border-color-hover);
+    box-shadow: var(--bbk-shadow-md);
+    transform: translateY(-2px);
+}
+
+.bbk-brand-logo-box--card .bbk-brand-logo-box__info {
+    background: var(--bbk-bg-card);
+    border-top: 1px solid var(--bbk-border-color);
+}
+
+/* Minimal Style */
+.bbk-brand-logo-box--minimal {
+    background: transparent;
+}
+
+.bbk-brand-logo-box--minimal .bbk-brand-logo-box__preview {
+    border-radius: var(--bbk-radius-lg);
+}
+
+.bbk-brand-logo-box--minimal .bbk-brand-logo-box__info {
+    padding: 12px 4px;
+}
+
+/* Bordered Style */
+.bbk-brand-logo-box--bordered {
+    background: transparent;
+    border: 2px solid var(--bbk-border-color);
+}
+
+.bbk-brand-logo-box--bordered:hover {
+    border-color: var(--bbk-accent);
+}
+
+.bbk-brand-logo-box--bordered .bbk-brand-logo-box__info {
+    border-top: 2px solid var(--bbk-border-color);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .bbk-brand-logo-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .bbk-brand-logo-box__preview {
+        padding: 24px;
+    }
 }

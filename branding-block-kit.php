@@ -89,8 +89,8 @@ final class Branding_Block_Kit {
                 'showName'    => array( 'type' => 'boolean', 'default' => true ),
                 'showSlug'    => array( 'type' => 'boolean', 'default' => false ),
                 'columns'     => array( 'type' => 'number', 'default' => 4 ),
-                'swatchStyle' => array( 'type' => 'string', 'default' => 'card' ), // card, circle, square, pill, stripe, minimal, large-card, chip, row
-                'layout'      => array( 'type' => 'string', 'default' => 'grid' ), // grid, list, masonry, inline, row
+                'swatchStyle' => array( 'type' => 'string', 'default' => 'chip' ), // card, circle, square, pill, stripe, minimal, large-card, chip, row
+                'layout'      => array( 'type' => 'string', 'default' => 'row' ), // grid, list, masonry, inline, row
                 'swatchSize'  => array( 'type' => 'string', 'default' => 'medium' ), // small, medium, large
                 'groupLabel'  => array( 'type' => 'string', 'default' => '' ), // Optional label above the palette
                 'filterSlugs' => array( 'type' => 'string', 'default' => '' ), // comma-separated slugs to include
@@ -163,6 +163,38 @@ final class Branding_Block_Kit {
             'attributes'      => array(
                 'title'   => array( 'type' => 'string', 'default' => 'Custom Properties' ),
                 'section' => array( 'type' => 'string', 'default' => '' ), // empty = all, or specific key
+            ),
+        ) );
+
+        // Logo Showcase Block
+        register_block_type( 'bbk/logo-showcase', array(
+            'render_callback' => array( $this, 'render_logo_showcase' ),
+            'attributes'      => array(
+                'title'            => array( 'type' => 'string', 'default' => 'Logo' ),
+                'layout'           => array( 'type' => 'string', 'default' => 'grid' ), // grid, list, tabs
+                'columns'          => array( 'type' => 'number', 'default' => 2 ),
+                'cardStyle'        => array( 'type' => 'string', 'default' => 'card' ), // card, minimal, bordered
+                'showLabels'       => array( 'type' => 'boolean', 'default' => true ),
+                'showDownload'     => array( 'type' => 'boolean', 'default' => true ),
+                // Logo variations - each stores media ID and URL
+                'logoPrimaryId'    => array( 'type' => 'number', 'default' => 0 ),
+                'logoPrimaryUrl'   => array( 'type' => 'string', 'default' => '' ),
+                'logoPrimaryLabel' => array( 'type' => 'string', 'default' => 'Primary Logo' ),
+                'logoSecondaryId'    => array( 'type' => 'number', 'default' => 0 ),
+                'logoSecondaryUrl'   => array( 'type' => 'string', 'default' => '' ),
+                'logoSecondaryLabel' => array( 'type' => 'string', 'default' => 'Secondary Logo' ),
+                'logoDarkId'       => array( 'type' => 'number', 'default' => 0 ),
+                'logoDarkUrl'      => array( 'type' => 'string', 'default' => '' ),
+                'logoDarkLabel'    => array( 'type' => 'string', 'default' => 'Logo (Dark Background)' ),
+                'logoLightId'      => array( 'type' => 'number', 'default' => 0 ),
+                'logoLightUrl'     => array( 'type' => 'string', 'default' => '' ),
+                'logoLightLabel'   => array( 'type' => 'string', 'default' => 'Logo (Light Background)' ),
+                'logoIconId'       => array( 'type' => 'number', 'default' => 0 ),
+                'logoIconUrl'      => array( 'type' => 'string', 'default' => '' ),
+                'logoIconLabel'    => array( 'type' => 'string', 'default' => 'Icon / Mark' ),
+                'logoMonoId'       => array( 'type' => 'number', 'default' => 0 ),
+                'logoMonoUrl'      => array( 'type' => 'string', 'default' => '' ),
+                'logoMonoLabel'    => array( 'type' => 'string', 'default' => 'Monochrome Logo' ),
             ),
         ) );
 
@@ -628,6 +660,77 @@ final class Branding_Block_Kit {
                     </div>
                 </div>
             <?php endforeach; ?>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
+
+    /**
+     * Render Logo Showcase block.
+     */
+    public function render_logo_showcase( $attributes ) {
+        $layout     = $attributes['layout'] ?? 'grid';
+        $columns    = absint( $attributes['columns'] ?? 2 );
+        $card_style = $attributes['cardStyle'] ?? 'card';
+        $show_labels = $attributes['showLabels'] ?? true;
+        $show_download = $attributes['showDownload'] ?? true;
+
+        // Collect all logos that have URLs
+        $logos = array();
+        
+        $logo_types = array(
+            'Primary'   => array( 'id' => $attributes['logoPrimaryId'] ?? 0, 'url' => $attributes['logoPrimaryUrl'] ?? '', 'label' => $attributes['logoPrimaryLabel'] ?? 'Primary Logo', 'bg' => 'light' ),
+            'Secondary' => array( 'id' => $attributes['logoSecondaryId'] ?? 0, 'url' => $attributes['logoSecondaryUrl'] ?? '', 'label' => $attributes['logoSecondaryLabel'] ?? 'Secondary Logo', 'bg' => 'light' ),
+            'Dark'      => array( 'id' => $attributes['logoDarkId'] ?? 0, 'url' => $attributes['logoDarkUrl'] ?? '', 'label' => $attributes['logoDarkLabel'] ?? 'Logo (Dark Background)', 'bg' => 'dark' ),
+            'Light'     => array( 'id' => $attributes['logoLightId'] ?? 0, 'url' => $attributes['logoLightUrl'] ?? '', 'label' => $attributes['logoLightLabel'] ?? 'Logo (Light Background)', 'bg' => 'light' ),
+            'Icon'      => array( 'id' => $attributes['logoIconId'] ?? 0, 'url' => $attributes['logoIconUrl'] ?? '', 'label' => $attributes['logoIconLabel'] ?? 'Icon / Mark', 'bg' => 'light' ),
+            'Mono'      => array( 'id' => $attributes['logoMonoId'] ?? 0, 'url' => $attributes['logoMonoUrl'] ?? '', 'label' => $attributes['logoMonoLabel'] ?? 'Monochrome Logo', 'bg' => 'light' ),
+        );
+
+        foreach ( $logo_types as $key => $logo ) {
+            if ( ! empty( $logo['url'] ) ) {
+                $logos[ $key ] = $logo;
+            }
+        }
+
+        if ( empty( $logos ) ) {
+            return '<p class="bbk-brand-empty">' . esc_html__( 'No logos uploaded. Add logos in the block settings.', 'branding-block-kit' ) . '</p>';
+        }
+
+        $grid_classes = array(
+            'bbk-brand-logo-grid',
+            'bbk-brand-logo-grid--layout-' . $layout,
+            'bbk-brand-logo-grid--style-' . $card_style,
+        );
+
+        ob_start();
+        ?>
+        <div class="bbk-brand-block bbk-brand-logo-showcase">
+            <?php if ( ! empty( $attributes['title'] ) ) : ?>
+                <h3 class="bbk-brand-block__title"><?php echo esc_html( $attributes['title'] ); ?></h3>
+            <?php endif; ?>
+
+            <div class="<?php echo esc_attr( implode( ' ', $grid_classes ) ); ?>" style="--bbk-columns: <?php echo esc_attr( $columns ); ?>">
+                <?php foreach ( $logos as $key => $logo ) : ?>
+                    <div class="bbk-brand-logo-box bbk-brand-logo-box--<?php echo esc_attr( $card_style ); ?> bbk-brand-logo-box--bg-<?php echo esc_attr( $logo['bg'] ); ?>">
+                        <div class="bbk-brand-logo-box__preview">
+                            <img src="<?php echo esc_url( $logo['url'] ); ?>" alt="<?php echo esc_attr( $logo['label'] ); ?>" class="bbk-brand-logo-box__image" />
+                        </div>
+                        <?php if ( $show_labels || $show_download ) : ?>
+                            <div class="bbk-brand-logo-box__info">
+                                <?php if ( $show_labels ) : ?>
+                                    <span class="bbk-brand-logo-box__label"><?php echo esc_html( $logo['label'] ); ?></span>
+                                <?php endif; ?>
+                                <?php if ( $show_download && ! empty( $logo['url'] ) ) : ?>
+                                    <a href="<?php echo esc_url( $logo['url'] ); ?>" download class="bbk-brand-logo-box__download" title="<?php esc_attr_e( 'Download', 'branding-block-kit' ); ?>">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                                    </a>
+                                <?php endif; ?>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                <?php endforeach; ?>
+            </div>
         </div>
         <?php
         return ob_get_clean();

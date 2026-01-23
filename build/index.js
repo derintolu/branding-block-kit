@@ -551,6 +551,147 @@
         }
     });
 
+    // Logo Showcase Block
+    registerBlockType('bbk/logo-showcase', {
+        title: __('Logo Showcase', 'branding-block-kit'),
+        description: __('Display logo variations with download options', 'branding-block-kit'),
+        icon: brandIcon,
+        category: 'branding-block-kit',
+        attributes: {
+            title: { type: 'string', default: 'Logo' },
+            layout: { type: 'string', default: 'grid' },
+            columns: { type: 'number', default: 2 },
+            cardStyle: { type: 'string', default: 'card' },
+            showLabels: { type: 'boolean', default: true },
+            showDownload: { type: 'boolean', default: true },
+            logoPrimaryId: { type: 'number', default: 0 },
+            logoPrimaryUrl: { type: 'string', default: '' },
+            logoPrimaryLabel: { type: 'string', default: 'Primary Logo' },
+            logoSecondaryId: { type: 'number', default: 0 },
+            logoSecondaryUrl: { type: 'string', default: '' },
+            logoSecondaryLabel: { type: 'string', default: 'Secondary Logo' },
+            logoDarkId: { type: 'number', default: 0 },
+            logoDarkUrl: { type: 'string', default: '' },
+            logoDarkLabel: { type: 'string', default: 'Logo (Dark Background)' },
+            logoLightId: { type: 'number', default: 0 },
+            logoLightUrl: { type: 'string', default: '' },
+            logoLightLabel: { type: 'string', default: 'Logo (Light Background)' },
+            logoIconId: { type: 'number', default: 0 },
+            logoIconUrl: { type: 'string', default: '' },
+            logoIconLabel: { type: 'string', default: 'Icon / Mark' },
+            logoMonoId: { type: 'number', default: 0 },
+            logoMonoUrl: { type: 'string', default: '' },
+            logoMonoLabel: { type: 'string', default: 'Monochrome Logo' }
+        },
+        edit: function(props) {
+            const { attributes, setAttributes } = props;
+            const blockProps = useBlockProps();
+            const { MediaUpload, MediaUploadCheck } = wp.blockEditor;
+            const { Button } = wp.components;
+
+            // Helper to create media upload control
+            const LogoUpload = ({ label, idAttr, urlAttr, labelAttr }) => {
+                const id = attributes[idAttr];
+                const url = attributes[urlAttr];
+                const logoLabel = attributes[labelAttr];
+
+                return el('div', { className: 'bbk-logo-upload-control', style: { marginBottom: '16px', padding: '12px', border: '1px solid #ddd', borderRadius: '4px' } },
+                    el('div', { style: { fontWeight: '600', marginBottom: '8px' } }, label),
+                    el(TextControl, {
+                        label: __('Label', 'branding-block-kit'),
+                        value: logoLabel,
+                        onChange: (val) => setAttributes({ [labelAttr]: val })
+                    }),
+                    el(MediaUploadCheck, {},
+                        el(MediaUpload, {
+                            onSelect: (media) => setAttributes({ [idAttr]: media.id, [urlAttr]: media.url }),
+                            allowedTypes: ['image'],
+                            value: id,
+                            render: ({ open }) => el('div', {},
+                                url ? el('div', { style: { marginBottom: '8px' } },
+                                    el('img', { src: url, alt: logoLabel, style: { maxWidth: '100%', maxHeight: '80px', objectFit: 'contain', background: '#f0f0f0', padding: '8px', borderRadius: '4px' } })
+                                ) : null,
+                                el(Button, { onClick: open, variant: 'secondary', style: { marginRight: '8px' } }, url ? __('Replace', 'branding-block-kit') : __('Upload Logo', 'branding-block-kit')),
+                                url ? el(Button, { onClick: () => setAttributes({ [idAttr]: 0, [urlAttr]: '' }), isDestructive: true, variant: 'tertiary' }, __('Remove', 'branding-block-kit')) : null
+                            )
+                        })
+                    )
+                );
+            };
+
+            return el(Fragment, {},
+                el(InspectorControls, {},
+                    el(PanelBody, { title: __('Layout', 'branding-block-kit') },
+                        el(SelectControl, {
+                            label: __('Layout Style', 'branding-block-kit'),
+                            value: attributes.layout,
+                            options: [
+                                { label: 'Grid', value: 'grid' },
+                                { label: 'List', value: 'list' }
+                            ],
+                            onChange: (val) => setAttributes({ layout: val })
+                        }),
+                        el(RangeControl, {
+                            label: __('Columns', 'branding-block-kit'),
+                            value: attributes.columns,
+                            onChange: (val) => setAttributes({ columns: val }),
+                            min: 1,
+                            max: 4
+                        }),
+                        el(SelectControl, {
+                            label: __('Card Style', 'branding-block-kit'),
+                            value: attributes.cardStyle,
+                            options: [
+                                { label: 'Card', value: 'card' },
+                                { label: 'Minimal', value: 'minimal' },
+                                { label: 'Bordered', value: 'bordered' }
+                            ],
+                            onChange: (val) => setAttributes({ cardStyle: val })
+                        })
+                    ),
+                    el(PanelBody, { title: __('Display Options', 'branding-block-kit'), initialOpen: false },
+                        el(TextControl, {
+                            label: __('Title', 'branding-block-kit'),
+                            value: attributes.title,
+                            onChange: (val) => setAttributes({ title: val })
+                        }),
+                        el(ToggleControl, {
+                            label: __('Show Labels', 'branding-block-kit'),
+                            checked: attributes.showLabels,
+                            onChange: (val) => setAttributes({ showLabels: val })
+                        }),
+                        el(ToggleControl, {
+                            label: __('Show Download Button', 'branding-block-kit'),
+                            checked: attributes.showDownload,
+                            onChange: (val) => setAttributes({ showDownload: val })
+                        })
+                    ),
+                    el(PanelBody, { title: __('Primary Logos', 'branding-block-kit'), initialOpen: true },
+                        LogoUpload({ label: 'Primary Logo', idAttr: 'logoPrimaryId', urlAttr: 'logoPrimaryUrl', labelAttr: 'logoPrimaryLabel' }),
+                        LogoUpload({ label: 'Secondary Logo', idAttr: 'logoSecondaryId', urlAttr: 'logoSecondaryUrl', labelAttr: 'logoSecondaryLabel' })
+                    ),
+                    el(PanelBody, { title: __('Background Variations', 'branding-block-kit'), initialOpen: false },
+                        LogoUpload({ label: 'Logo (Dark Background)', idAttr: 'logoDarkId', urlAttr: 'logoDarkUrl', labelAttr: 'logoDarkLabel' }),
+                        LogoUpload({ label: 'Logo (Light Background)', idAttr: 'logoLightId', urlAttr: 'logoLightUrl', labelAttr: 'logoLightLabel' })
+                    ),
+                    el(PanelBody, { title: __('Additional Variations', 'branding-block-kit'), initialOpen: false },
+                        LogoUpload({ label: 'Icon / Mark', idAttr: 'logoIconId', urlAttr: 'logoIconUrl', labelAttr: 'logoIconLabel' }),
+                        LogoUpload({ label: 'Monochrome Logo', idAttr: 'logoMonoId', urlAttr: 'logoMonoUrl', labelAttr: 'logoMonoLabel' })
+                    )
+                ),
+                el('div', blockProps,
+                    el(ServerSideRender, {
+                        block: 'bbk/logo-showcase',
+                        attributes: attributes
+                    })
+                )
+            );
+        },
+        save: function() {
+            return null;
+        }
+    });
+
     // Full Style Guide Block
     registerBlockType('bbk/style-guide', {
         title: __('Full Style Guide', 'branding-block-kit'),
